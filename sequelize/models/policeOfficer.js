@@ -11,11 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id'
       }
     }
-  }, { freezeTableName: true, });
-
-  PoliceOfficer.associate = (models) => {
-    PoliceOfficer.belongsTo(models.PoliceDepartment);
-  };
+  }, {});
   return PoliceOfficer;
 };
 
