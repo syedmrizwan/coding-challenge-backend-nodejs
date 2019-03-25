@@ -4,20 +4,20 @@ const Bike = require('../sequelize/models').Bike;
 module.exports = {
     async createPoliceOfficer(req, res) {
         let policeOfficer;
-        let isAvailable = true; 
+        let isAvailable = true;
         let result = await Bike.getStolenBikeCase();
         if (result.length > 0) {
-            isAvailable = false; 
+            isAvailable = false;
         }
         policeOfficer = await PoliceOfficer.create({
             name: req.payload.name,
             departmentId: req.params.departmentId,
-            isAvailable : isAvailable
+            isAvailable: isAvailable
         });
         if (result.length > 0) {
             let caseId = result[0].dataValues.id;
             await Bike.updateBikeAssignedOfficer(caseId, policeOfficer.id);
-             policeOfficer.dataValues.assignedCase = caseId;
+            policeOfficer.dataValues.assignedCase = caseId;
         }
         return res.response(policeOfficer).code(200);
     },
@@ -47,5 +47,29 @@ module.exports = {
                     { id: req.params.id }
             }
         )
+    },
+    async resolveStolenBikeCase(req, res) {
+        let officerId = req.params.officerId;
+        await Bike.markBikeCaseResolved(req.params.bikeId);
+        let caseId = await this.assignCase(officerId);
+        if (!caseId) {
+            await PoliceOfficer.changeAvailability(officerId, true);
+        }
+        let result = await Bike.findAll({
+            where: {
+                id: req.params.bikeId
+            }
+        })
+        return result;
+    },
+
+    async assignCase(officerId) {
+        let result = await Bike.getStolenBikeCase();
+        if (result.length > 0) {
+            let caseId = result[0].dataValues.id;
+            await Bike.updateBikeAssignedOfficer(caseId, officerId);
+            return caseId;
+        }
+        return false;
     }
 };

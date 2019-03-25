@@ -4,6 +4,9 @@ module.exports = {
     async getPoliceOfficersByDept(req, res) {
         return await policeOfficerService.getPoliceOfficersByDept(req, res);
     },
+    async resolveStolenBikeCase(req, res) {
+        return await policeOfficerService.resolveStolenBikeCase(req, res);
+    },
     async createPoliceOfficer(req, res) {
         return await policeOfficerService.createPoliceOfficer(req, res);
     },

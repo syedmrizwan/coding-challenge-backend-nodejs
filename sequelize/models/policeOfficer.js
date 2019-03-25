@@ -27,15 +27,8 @@ module.exports = (sequelize, DataTypes) => {
 
 
   PoliceOfficer.changeAvailability = function (officerId, availability) {
-    let res = PoliceOfficer.update(
-      {
-        isAvailable: availability
-      },
-      {
-        where:
-          { id: officerId }
-      }
-    );
+    let res = PoliceOfficer.update({ isAvailable: availability },
+      { where: { id: officerId } });
     return res;
   }
   return PoliceOfficer;

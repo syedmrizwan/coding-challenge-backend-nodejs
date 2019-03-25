@@ -64,5 +64,6 @@ const db = require('./sequelize/models');
     }
     server.route((require('./routes/policeDepartment')));
     server.route((require('./routes/bike')));
+    server.route((require('./routes/policeOfficer')));
 
 })();

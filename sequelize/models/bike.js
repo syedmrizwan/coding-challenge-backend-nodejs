@@ -31,17 +31,15 @@ module.exports = (sequelize, DataTypes) => {
         return res;
     };
 
-
     Bike.updateBikeAssignedOfficer = function (bikeId, availablePoliceOfficer) {
-        let res = Bike.update(
-            {
-                assignedOfficerId: availablePoliceOfficer
-            },
-            {
-                where:
-                    { id: bikeId }
-            }
-        );
+        let res = Bike.update({ assignedOfficerId: availablePoliceOfficer },
+            { where: { id: bikeId } });
+        return res;
+    }
+
+    Bike.markBikeCaseResolved = function (bikeId) {
+        let res = Bike.update({ isResolved: true },
+            { where: { id: bikeId } });
         return res;
     }
 
