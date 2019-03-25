@@ -21,18 +21,18 @@ const db = require('./sequelize/models');
     //initialize sequalize
     db.sequelize.sync().then(() => {
         // populate PoliceDepartment table with dummy data
-        db.PoliceDepartment.bulkCreate(
-            times(10, () => ({
-                name: faker.fake("Police Station {{address.state}}")
-            }))
-        );
-        // populate PoliceOfficer table with dummy data
-        db.PoliceOfficer.bulkCreate(
-            times(10, () => ({
-                name: faker.name.firstName(),
-                departmentId: random.int(min = 1, max = 10)
-            }))
-        );
+        // db.PoliceDepartment.bulkCreate(
+        //     times(10, () => ({
+        //         name: faker.fake("Police Station {{address.state}}")
+        //     }))
+        // );
+        // // populate PoliceOfficer table with dummy data
+        // db.PoliceOfficer.bulkCreate(
+        //     times(10, () => ({
+        //         name: faker.name.firstName(),
+        //         departmentId: random.int(min = 1, max = 10)
+        //     }))
+        // );
     });
 
 

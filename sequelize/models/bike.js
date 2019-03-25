@@ -17,6 +17,34 @@ module.exports = (sequelize, DataTypes) => {
             }
         }
     }, {});
+
+    Bike.getStolenBikeCase = function () {
+        let res = Bike.findAll({
+            limit: 1,
+            order: [['createdAt', 'ASC']],
+            where: {
+                isResolved: false,
+                assignedOfficerId: null
+            },
+            attributes: ['id'],
+        });
+        return res;
+    };
+
+
+    Bike.updateBikeAssignedOfficer = function (bikeId, availablePoliceOfficer) {
+        let res = Bike.update(
+            {
+                assignedOfficerId: availablePoliceOfficer
+            },
+            {
+                where:
+                    { id: bikeId }
+            }
+        );
+        return res;
+    }
+
     return Bike;
 };
 

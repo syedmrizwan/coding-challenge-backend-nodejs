@@ -1,17 +1,23 @@
 "use strict"
 const Bike = require('../sequelize/models').Bike;
-
+const PoliceOfficer = require('../sequelize/models').PoliceOfficer;
 module.exports = {
     async createBike(req, res) {
+        let availablePoliceOfficer;
+        let result = await PoliceOfficer.getAvailablePoliceOfficer();
+        if (result.length > 0) {
+            availablePoliceOfficer = result[0].dataValues.id;
+            await PoliceOfficer.changeAvailability(availablePoliceOfficer, false);
+        }
         let bike;
         bike = await Bike.create({
-            //paymentHashes ? paymentHashes.dataValues.approvalHash : ''
             licenseNumber: req.payload.licenseNumber,
             color: req.payload.color,
             type: req.payload.type,
             ownerFullName: req.payload.ownerFullName,
             theftDescription: req.payload.theftDescription,
-            theftDate: req.payload.theftDate
+            theftDate: req.payload.theftDate,
+            assignedOfficerId: availablePoliceOfficer
         });
         return res.response(bike).code(200);
     },
@@ -33,17 +39,5 @@ module.exports = {
                 id: req.params.id
             }
         })
-    },
-    async updateBike(req, res) {
-        req.payload = JSON.parse(JSON.stringify(req.payload));
-        return await Bike.update(
-            {
-                name: req.payload.name
-            },
-            {
-                where:
-                    { id: req.params.id }
-            }
-        )
     }
 };
