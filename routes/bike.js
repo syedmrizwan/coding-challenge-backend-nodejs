@@ -44,5 +44,25 @@ module.exports = [
                 })
             }
         }
+    },
+    {
+        method: 'POST',
+        path: '/stolenBikes/{bikeId}',
+        handler: bike.resolveStolenBikeCase,
+        config: {
+            description: 'Mark Stolen Bike Case resolved',
+            notes: 'Mark Stolen Bike Case resolved',
+            tags: ['api', 'stolenBikes'],
+            plugins: {
+                'hapi-swagger': {
+                    payloadType: 'form'
+                }
+            },
+            validate: {
+                params: Joi.object({
+                    bikeId: Joi.number().required()
+                })
+            }
+        }
     }
 ]

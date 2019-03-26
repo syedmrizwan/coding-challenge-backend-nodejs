@@ -4,27 +4,34 @@ const PoliceDepartment = require('../sequelize/models').PoliceDepartment;
 module.exports = {
     /**
      * Create a Police Depatment in the Database
-     * @param {Request} req 
-     * @param {Response} res 
+     * @param {String} departmentName 
+     * @return {Object} Police Department
      */
-    async createPoliceDepartment(req, res) {
-        let policeDepartment;
-        policeDepartment = await PoliceDepartment.create({
-            name: req.payload.name
-        });
-        return res.response(policeDepartment).code(200);
+    async createPoliceDepartment(departmentName) {
+        try {
+            let policeDepartment = await PoliceDepartment.create({
+                name: departmentName
+            });
+            return policeDepartment;
+        } catch (e) {
+            throw Error('Error while Creating Police Department');
+        }
     },
     /**
      * Feth Police Department By Id
-     * @param {Request} req 
-     * @param {Response} res 
+     * @param {Integer} departmentId 
+     * @return {Object} Police Department
      */
-    async getPoliceDepartmentById(req, res) {
-        let result = await PoliceDepartment.findAll({
-            where: {
-                id: req.params.departmentId
-            }
-        })
-        return result;
+    async getPoliceDepartmentById(departmentId) {
+        try {
+            let result = await PoliceDepartment.findAll({
+                where: {
+                    id: departmentId
+                }
+            })
+            return result;
+        } catch (e) {
+            throw Error('Error while Retrieving Police Department');
+        }
     }
 };
