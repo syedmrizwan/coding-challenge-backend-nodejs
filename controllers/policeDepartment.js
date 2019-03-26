@@ -1,5 +1,8 @@
-const policeDepartmentService = require('../services/policeDepartment');
+'use strict';
+
+const PoliceDepartmentService = require('../services/policeDepartment');
 const Boom = require('boom');
+
 module.exports = {
     /**
      * Get Polic eDepartment By Id Controller
@@ -8,13 +11,12 @@ module.exports = {
      */
     async getPoliceDepartmentById(req, res) {
         try {
-            let department = await policeDepartmentService.getPoliceDepartmentById(req.params.departmentId);
+            const department = await PoliceDepartmentService.getPoliceDepartmentById(req.params.departmentId);
             if (department.length > 0) {
                 return res.response(department).code(200);
             }
-            else {
-                return Boom.notFound('No Police Department Exist with this Id');
-            }
+
+            return Boom.notFound('No Police Department Exist with this Id');
         } catch (e) {
             return Boom.badRequest(e.message);
         }
@@ -26,10 +28,10 @@ module.exports = {
     */
     async createPoliceDepartment(req, res) {
         try {
-            let department = await policeDepartmentService.createPoliceDepartment(req.payload.name);
+            const department = await PoliceDepartmentService.createPoliceDepartment(req.payload.name);
             return res.response(department).code(201);
         } catch (e) {
             return Boom.badRequest(e.message);
         }
     }
-}
+};

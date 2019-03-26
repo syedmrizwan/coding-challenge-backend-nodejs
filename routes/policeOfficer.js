@@ -1,3 +1,5 @@
+'use strict';
+
 const policeOfficer = require('../controllers/policeOfficer');
 const Joi = require('joi');
 
@@ -16,4 +18,4 @@ module.exports = [
             }
         }
     }
-]
+];

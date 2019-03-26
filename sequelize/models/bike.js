@@ -1,7 +1,9 @@
 'use strict';
-var models = require('./index');
+
+const models = require('./index');
+
 module.exports = (sequelize, DataTypes) => {
-    var Bike = sequelize.define('Bike', {
+    const Bike = sequelize.define('Bike', {
         licenseNumber: { type: DataTypes.STRING, allowNull: false },
         color: { type: DataTypes.STRING, allowNull: true },
         type: { type: DataTypes.STRING, allowNull: true },
@@ -23,14 +25,14 @@ module.exports = (sequelize, DataTypes) => {
      * Fetch oldest and not assigned Stolen Bike Incident
      */
     Bike.getStolenBikeCase = function () {
-        let res = Bike.findAll({
+        const res = Bike.findAll({
             limit: 1,
             order: [['createdAt', 'ASC']],
             where: {
                 isResolved: false,
                 assignedOfficerId: null
             },
-            attributes: ['id'],
+            attributes: ['id']
         });
         return res;
     };
@@ -41,20 +43,20 @@ module.exports = (sequelize, DataTypes) => {
      * @param {Integer} availablePoliceOfficer 
      */
     Bike.updateBikeAssignedOfficer = function (bikeId, availablePoliceOfficer) {
-        let res = Bike.update({ assignedOfficerId: availablePoliceOfficer },
+        const res = Bike.update({ assignedOfficerId: availablePoliceOfficer },
             { where: { id: bikeId } });
         return res;
-    }
+    };
 
     /**
      * Mark Bike Incident Resolved
      * @param {Integer} bikeId 
      */
     Bike.markBikeCaseResolved = function (bikeId) {
-        let res = Bike.update({ isResolved: true },
+        const res = Bike.update({ isResolved: true },
             { where: { id: bikeId } });
         return res;
-    }
+    };
 
     /**
      * Fetch Stolem Bike Incident and Police Department assigned to it

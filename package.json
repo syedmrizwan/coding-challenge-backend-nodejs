@@ -4,7 +4,7 @@
   "description": "Stolen Bike Cases",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "lab -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,__core-js_shared__'",
     "start": "nodemon server.js"
   },
   "keywords": [],
@@ -12,10 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.0",
+    "chai": "^4.2.0",
+    "code": "^5.2.4",
     "faker": "^4.1.0",
     "hapi": "^17.5.3",
     "hapi-swagger": "^9.1.1",
     "inert": "^5.1.0",
+    "lab": "^18.0.2",
     "lodash.times": "^4.3.2",
     "moment": "^2.22.2",
     "nodemon": "^1.18.3",

@@ -1,3 +1,5 @@
+'use strict';
+
 const bike = require('../controllers/bike');
 const Joi = require('joi');
 
@@ -65,4 +67,4 @@ module.exports = [
             }
         }
     }
-]
+];

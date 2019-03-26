@@ -1,4 +1,5 @@
-"use strict"
+'use strict'
+
 const PoliceDepartment = require('../sequelize/models').PoliceDepartment;
 
 module.exports = {
@@ -9,7 +10,7 @@ module.exports = {
      */
     async createPoliceDepartment(departmentName) {
         try {
-            let policeDepartment = await PoliceDepartment.create({
+            const policeDepartment = await PoliceDepartment.create({
                 name: departmentName
             });
             return policeDepartment;
@@ -24,7 +25,7 @@ module.exports = {
      */
     async getPoliceDepartmentById(departmentId) {
         try {
-            let result = await PoliceDepartment.findAll({
+            const result = await PoliceDepartment.findAll({
                 where: {
                     id: departmentId
                 }

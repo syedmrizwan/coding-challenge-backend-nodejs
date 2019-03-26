@@ -1,5 +1,8 @@
-const bikeService = require('../services/bike');
+'use strict';
+
+const BikeService = require('../services/bike');
 const Boom = require('boom');
+
 module.exports = {
     /**
      * Create Bike Controller
@@ -8,7 +11,7 @@ module.exports = {
      */
     async createBike(req, res) {
         try {
-            let stolenBikeIncident = await bikeService.createBike(req.payload);
+            const stolenBikeIncident = await BikeService.createBike(req.payload);
             return res.response(stolenBikeIncident).code(201);
         } catch (e) {
             return Boom.badRequest(e.message);
@@ -21,7 +24,7 @@ module.exports = {
      */
     async getBikeDetailAndDepartment(req, res) {
         try {
-            let result = await bikeService.getBikeDetailAndDepartment(req.query);
+            const result = await BikeService.getBikeDetailAndDepartment(req.query);
             return res.response(result).code(200);
         } catch (e) {
             return Boom.badRequest(e.message);
@@ -34,17 +37,16 @@ module.exports = {
      */
     async resolveStolenBikeCase(req, res) {
         try {
-            let bikeIncident = await bikeService.resolveStolenBikeCase(req.params.bikeId);
+            const bikeIncident = await BikeService.resolveStolenBikeCase(req.params.bikeId);
             if (!bikeIncident) {
                 return Boom.notFound('No Stolen Bike Case Exist with this Id');
-            } else {
-                return res.response(bikeIncident).code(200);
             }
 
+            return res.response(bikeIncident).code(200);
         } catch (e) {
             return Boom.badRequest(e.message);
         }
     }
 
 
-}
+};

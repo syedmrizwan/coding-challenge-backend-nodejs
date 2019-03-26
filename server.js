@@ -1,11 +1,13 @@
+'use strict';
+
 const Hapi = require('hapi');
 const Inert = require('inert');
 const Vision = require('vision');
 const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
-const faker = require("faker");
-const times = require("lodash.times");
-const random = require("random");
+// const faker = require("faker");
+// const times = require("lodash.times");
+// const random = require("random");
 const db = require('./sequelize/models');
 
 

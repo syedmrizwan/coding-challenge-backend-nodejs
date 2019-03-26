@@ -1,7 +1,10 @@
 'use strict';
-var models = require('./index');
+
+const models = require('./index');
+
 module.exports = (sequelize, DataTypes) => {
-  var PoliceOfficer = sequelize.define('PoliceOfficer', {
+
+  const PoliceOfficer = sequelize.define('PoliceOfficer', {
     name: { type: DataTypes.STRING, allowNull: false },
     isAvailable: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
     departmentId: {
@@ -18,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
    * Fetch available Police Officer
    */
   PoliceOfficer.getAvailablePoliceOfficer = function () {
-    let res = PoliceOfficer.findAll({
+    const res = PoliceOfficer.findAll({
       limit: 1,
       order: [['updatedAt', 'ASC']],
       where: {
@@ -34,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
    * @param {Boolean} availability 
    */
   PoliceOfficer.changeAvailability = function (officerId, availability) {
-    let res = PoliceOfficer.update({ isAvailable: availability },
+    const res = PoliceOfficer.update({ isAvailable: availability },
       { where: { id: officerId } });
     return res;
   }

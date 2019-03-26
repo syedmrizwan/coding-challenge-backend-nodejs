@@ -1,7 +1,9 @@
-"use strict"
+'use strict'
+
 const PoliceOfficer = require('../sequelize/models').PoliceOfficer;
 const PoliceDepartment = require('../sequelize/models').PoliceDepartment;
 const Bike = require('../sequelize/models').Bike;
+
 module.exports = {
     /**
      * Create Police Officer in the Database
@@ -13,7 +15,7 @@ module.exports = {
         try {
             let policeOfficer;
             let isAvailable = true;
-            let result = await Bike.getStolenBikeCase();
+            const result = await Bike.getStolenBikeCase();
             if (result.length > 0) {
                 isAvailable = false;
             }
@@ -23,7 +25,7 @@ module.exports = {
                 isAvailable: isAvailable
             });
             if (result.length > 0) {
-                let caseId = result[0].dataValues.id;
+                const caseId = result[0].dataValues.id;
                 await Bike.updateBikeAssignedOfficer(caseId, policeOfficer.id);
                 policeOfficer.dataValues.assignedCase = caseId;
             }
@@ -39,9 +41,9 @@ module.exports = {
      */
     async getPoliceOfficersByDept(policeDepartmentId) {
         try {
-            let policeDepartment = await PoliceDepartment.findAll({ where: { id: policeDepartmentId } });
+            const policeDepartment = await PoliceDepartment.findAll({ where: { id: policeDepartmentId } });
             if (policeDepartment.length > 0) {
-                let result = await PoliceOfficer.findAll({
+                const result = await PoliceOfficer.findAll({
                     where: { departmentId: policeDepartmentId }
                 })
                 return result;
@@ -59,11 +61,11 @@ module.exports = {
     */
     async getPoliceOfficerAssignedCases(officerId) {
         try {
-            let officerInfoResult = await PoliceOfficer.getOfficerAndDepartment(officerId);
+            const officerInfoResult = await PoliceOfficer.getOfficerAndDepartment(officerId);
             let result;
             if (officerInfoResult.length > 0) {
                 result = officerInfoResult[0].dataValues;
-                let incidentResult = await Bike.findAll({
+                const incidentResult = await Bike.findAll({
                     where: {
                         assignedOfficerId: officerId
                     }

@@ -1,5 +1,8 @@
-const policeOfficerService = require('../services/policeOfficer');
+'use strict';
+
+const PoliceOfficerService = require('../services/policeOfficer');
 const Boom = require('boom');
+
 module.exports = {
     /**
      * Get Police Officers By Dept Controller
@@ -8,12 +11,12 @@ module.exports = {
      */
     async getPoliceOfficersByDept(req, res) {
         try {
-            let officers = await policeOfficerService.getPoliceOfficersByDept(req.params.departmentId);
+            const officers = await PoliceOfficerService.getPoliceOfficersByDept(req.params.departmentId);
             if (!officers) {
                 return Boom.notFound('No Police Department Exist with this Id');
-            } else {
-                return res.response(officers).code(200);
             }
+
+            return res.response(officers).code(200);
         } catch (e) {
             return Boom.badRequest(e.message);
         }
@@ -25,7 +28,7 @@ module.exports = {
      */
     async createPoliceOfficer(req, res) {
         try {
-            let officer = await policeOfficerService.createPoliceOfficer(req.payload.name, req.params.departmentId);
+            const officer = await PoliceOfficerService.createPoliceOfficer(req.payload.name, req.params.departmentId);
             return res.response(officer).code(201);
         } catch (e) {
             return Boom.badRequest(e.message);
@@ -38,15 +41,14 @@ module.exports = {
      */
     async getPoliceOfficerAssignedCases(req, res) {
         try {
-            let assignedCases = await policeOfficerService.getPoliceOfficerAssignedCases(req.params.officerId);
+            const assignedCases = await PoliceOfficerService.getPoliceOfficerAssignedCases(req.params.officerId);
             if (assignedCases) {
                 return res.response(assignedCases).code(200);
             }
-            else {
-                return Boom.notFound('No Police Officers Exist with this Id');
-            }
+
+            return Boom.notFound('No Police Officers Exist with this Id');
         } catch (e) {
             return Boom.badRequest(e.message);
         }
     }
-}
+};
