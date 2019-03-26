@@ -2,6 +2,11 @@
 const Bike = require('../sequelize/models').Bike;
 const PoliceOfficer = require('../sequelize/models').PoliceOfficer;
 module.exports = {
+    /**
+     * Create Stolen Bike Incident in the database
+     * @param {Request} req 
+     * @param {Response} res 
+     */
     async createBike(req, res) {
         let availablePoliceOfficer;
         let result = await PoliceOfficer.getAvailablePoliceOfficer();
@@ -21,23 +26,32 @@ module.exports = {
         });
         return res.response(bike).code(200);
     },
-    async getAllBikes() {
-        let result = await Bike.findAll()
+    /**
+     * Feth Bike Detail and the Police department assign with it
+     * @param {Request} req 
+     * @param {Response} res 
+     */
+    async getBikeDetailAndDepartment(req, res) {
+        let whereCondition = {};
+        if (req.query.licenseNumber) {
+            whereCondition['licenseNumber'] = req.query.licenseNumber
+        }
+        if (req.query.color) {
+            whereCondition['color'] = req.query.color
+        }
+        if (req.query.type) {
+            whereCondition['type'] = req.query.type
+        }
+        if (req.query.ownerFullName) {
+            whereCondition['ownerFullName'] = req.query.ownerFullName
+        }
+        if (req.query.theftDescription) {
+            whereCondition['theftDescription'] = req.query.theftDescription
+        }
+        if (req.query.theftDate) {
+            whereCondition['theftDate'] = req.query.theftDate
+        }
+        let result = await Bike.getBikeDetailAndDepartment(whereCondition);
         return result;
-    },
-    async getBikeById(req, res) {
-        let result = await Bike.findAll({
-            where: {
-                id: req.params.bikeId
-            }
-        })
-        return result;
-    },
-    async deleteBike(req, res) {
-        return await Bike.destroy({
-            where: {
-                id: req.params.id
-            }
-        })
     }
 };

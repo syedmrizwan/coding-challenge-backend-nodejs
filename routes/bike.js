@@ -4,34 +4,29 @@ const Joi = require('joi');
 module.exports = [
     {
         method: 'GET',
-        path: '/bikes',
-        handler: bike.getAllBikes,
+        path: '/stolenBikes',
+        handler: bike.getBikeDetailAndDepartment,
         config: {
-            tags: ['api', 'bike'],
-            description: 'Get All Bikes',
-        }
-    },
-    {
-        method: 'GET',
-        path: '/bikes/{bikeId}',
-        handler: bike.getBikeById,
-        config: {
-            tags: ['api', 'bike'],
-            description: 'Get Bike By Id',
+            tags: ['api', 'stolenBikes'],
+            description: 'Get All Stolen Bikes Incident',
             validate: {
-                params: Joi.object({
-                    bikeId: Joi.number()
+                query: Joi.object({
+                    licenseNumber: Joi.string(),
+                    color: Joi.string(),
+                    type: Joi.string(),
+                    ownerFullName: Joi.string(),
+                    theftDescription: Joi.string(),
+                    theftDate: Joi.date().iso()
                 })
             }
         }
     },
     {
         method: 'POST',
-        path: '/bikes',
+        path: '/stolenBikes',
         handler: bike.createBike,
         config: {
-            description: 'Create Bike',
-            notes: 'Report Stolen Bike',
+            description: 'Report Stolen Bike Incident',
             tags: ['api', 'bike'],
             plugins: {
                 'hapi-swagger': {

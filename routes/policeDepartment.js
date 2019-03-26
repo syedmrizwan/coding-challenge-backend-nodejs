@@ -5,15 +5,6 @@ const Joi = require('joi');
 module.exports = [
     {
         method: 'GET',
-        path: '/policeDepartments',
-        handler: policeDepartment.getAllPoliceDepartments,
-        config: {
-            tags: ['api', 'policeDepartment'],
-            description: 'Get All Police Departments',
-        }
-    },
-    {
-        method: 'GET',
         path: '/policeDepartments/{departmentId}',
         handler: policeDepartment.getPoliceDepartmentById,
         config: {

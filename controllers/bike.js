@@ -1,19 +1,20 @@
 const bikeService = require('../services/bike');
 
 module.exports = {
-    async getAllBikes() {
-        return await bikeService.getAllBikes();
-    },
-    async getBikeById(req, res) {
-        return await bikeService.getBikeById(req, res);
-    },
+    /**
+     * Create Bike Controller
+     * @param {Request} req 
+     * @param {Response} res 
+     */
     async createBike(req, res) {
         return await bikeService.createBike(req, res);
     },
-    async deleteBike(req, res) {
-        return await bikeService.deleteBike(req, res);
-    },
-    async updateBike(req, res) {
-        return await bikeService.updateBike(req, res);
+    /**
+     * Get Bike Detail And Department Controller
+     * @param {Request} req 
+     * @param {Response} res 
+     */
+    async getBikeDetailAndDepartment(req, res) {
+        return await bikeService.getBikeDetailAndDepartment(req, res);
     }
 }

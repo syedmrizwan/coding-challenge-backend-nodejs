@@ -1,19 +1,20 @@
 const policeDepartmentService = require('../services/policeDepartment');
 
 module.exports = {
-    async getAllPoliceDepartments() {
-        return await policeDepartmentService.getAllPoliceDepartments();
-    },
+    /**
+     * Get Polic eDepartment By Id Controller
+     * @param {Request} req 
+     * @param {Response} res 
+     */
     async getPoliceDepartmentById(req, res) {
         return await policeDepartmentService.getPoliceDepartmentById(req, res);
     },
+    /**
+    * Create Police Department Controller
+    * @param {Request} req 
+    * @param {Response} res 
+    */
     async createPoliceDepartment(req, res) {
         return await policeDepartmentService.createPoliceDepartment(req, res);
-    },
-    async deletePoliceDepartment(req, res) {
-        return await policeDepartmentService.deletePoliceDepartment(req, res);
-    },
-    async updatePoliceDepartment(req, res) {
-        return await policeDepartmentService.updatePoliceDepartment(req, res);
     }
 }

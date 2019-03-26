@@ -1,4 +1,5 @@
 'use strict';
+var models = require('./index');
 module.exports = (sequelize, DataTypes) => {
   var PoliceOfficer = sequelize.define('PoliceOfficer', {
     name: { type: DataTypes.STRING, allowNull: false },
@@ -13,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {});
 
+  /**
+   * Fetch available Police Officer
+   */
   PoliceOfficer.getAvailablePoliceOfficer = function () {
     let res = PoliceOfficer.findAll({
       limit: 1,
@@ -24,13 +28,34 @@ module.exports = (sequelize, DataTypes) => {
     });
     return res;
   };
-
-
+  /**
+   * Change Police Officer availability
+   * @param {Integer} officerId 
+   * @param {Boolean} availability 
+   */
   PoliceOfficer.changeAvailability = function (officerId, availability) {
     let res = PoliceOfficer.update({ isAvailable: availability },
       { where: { id: officerId } });
     return res;
   }
+
+  /**
+   * Fetch Police Officer and corresponding Department
+   * @param {Integer} officerId 
+   */
+  PoliceOfficer.getOfficerAndDepartment = function (officerId) {
+    return PoliceOfficer.findAll({
+      include:
+      {
+        model: models.PoliceDepartment,
+        attributes: ['name'],
+        all: true,
+      },
+      attributes: { exclude: ['createdAt', 'updatedAt', 'departmentId'] },
+      where: { id: officerId }
+    });
+  };
+
   return PoliceOfficer;
 };
 

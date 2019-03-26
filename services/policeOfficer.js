@@ -2,6 +2,11 @@
 const PoliceOfficer = require('../sequelize/models').PoliceOfficer;
 const Bike = require('../sequelize/models').Bike;
 module.exports = {
+    /**
+     * Create Police Officer in the Database
+     * @param {Request} req 
+     * @param {Response} res 
+     */
     async createPoliceOfficer(req, res) {
         let policeOfficer;
         let isAvailable = true;
@@ -21,6 +26,11 @@ module.exports = {
         }
         return res.response(policeOfficer).code(200);
     },
+    /**
+     * Feth All Police Officers in a Department
+     * @param {Request} req 
+     * @param {Response} res 
+     */
     async getPoliceOfficersByDept(req, res) {
         let result = await PoliceOfficer.findAll({
             where: {
@@ -29,25 +39,11 @@ module.exports = {
         })
         return result;
     },
-    async deletePoliceOfficer(req, res) {
-        return await PoliceOfficer.destroy({
-            where: {
-                id: req.params.id
-            }
-        })
-    },
-    async updatePoliceOfficer(req, res) {
-        req.payload = JSON.parse(JSON.stringify(req.payload));
-        return await PoliceOfficer.update(
-            {
-                name: req.payload.name
-            },
-            {
-                where:
-                    { id: req.params.id }
-            }
-        )
-    },
+    /**
+     * Resolve Stolen Bike Incident
+     * @param {Request} req 
+     * @param {Response} res 
+     */
     async resolveStolenBikeCase(req, res) {
         let officerId = req.params.officerId;
         await Bike.markBikeCaseResolved(req.params.bikeId);
@@ -62,7 +58,33 @@ module.exports = {
         })
         return result;
     },
+    /**
+    * Feth All Cases assigned to a Police Officer
+    * @param {Request} req 
+    * @param {Response} res 
+    */
+    async getPoliceOfficerAssignedCases(req, res) {
+        let officerId = req.params.officerId;
+        let officerInfoResult = await PoliceOfficer.getOfficerAndDepartment(officerId);
+        let result;
+        if (officerInfoResult.length > 0) {
+            result = officerInfoResult[0].dataValues;
+            let incidentResult = await Bike.findAll({
+                where: {
+                    assignedOfficerId: officerId
+                }
+            })
+            if (incidentResult.length > 0) {
+                result['stolenBikeIncidents'] = incidentResult[0].dataValues;
+            }
+        }
 
+        return result;
+    },
+    /**
+     * Assign a Stolen Bike Incident to Police Officer
+     * @param {Integer} officerId 
+     */
     async assignCase(officerId) {
         let result = await Bike.getStolenBikeCase();
         if (result.length > 0) {
@@ -72,4 +94,5 @@ module.exports = {
         }
         return false;
     }
+
 };
