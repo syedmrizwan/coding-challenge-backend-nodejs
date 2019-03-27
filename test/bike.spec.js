@@ -43,7 +43,7 @@ describe('POST /stolenBikes', () => {
     });
 });
 describe('POST /stolenBikes/{bikeId}', () => {
-    it('return 401 HTTP status code', (done) => {
+    it('return 404 HTTP status code', (done) => {
         db.Bike.destroy({ where: {} }, () => {
             const options = {
                 method: 'POST',

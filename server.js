@@ -1,17 +1,13 @@
 'use strict';
 
 const Hapi = require('hapi');
-const Inert = require('inert');
-const Vision = require('vision');
-const HapiSwagger = require('hapi-swagger');
 const Pack = require('./package');
 // const faker = require("faker");
 // const times = require("lodash.times");
 // const random = require("random");
 const db = require('./sequelize/models');
 
-
-(async () => {
+async function start() {
     const server = await new Hapi.Server({
         host: 'localhost',
         port: 8000,
@@ -37,35 +33,26 @@ const db = require('./sequelize/models');
         // );
     });
 
+    //registers swagger plugins
+    await server.register(require("./config/hapi-plugins"));
 
+    //registers swagger plugins
+    await server.register(require("./config/hapi-plugins"));
 
-
-    ///
-
-    const swaggerOptions = {
-        info: {
-            title: 'Stolen Bike Cases',
-            version: Pack.version,
-        },
-    };
-
-    await server.register([
-        Inert,
-        Vision,
-        {
-            plugin: HapiSwagger,
-            options: swaggerOptions
-        }
-    ]);
-
-    try {
-        await server.start();
-        console.log('Server running at:', server.info.uri);
-    } catch (err) {
-        console.log(err);
-    }
+    //Routes
     server.route((require('./routes/policeDepartment')));
     server.route((require('./routes/bike')));
     server.route((require('./routes/policeOfficer')));
 
-})();
+    //start the server
+    await server.start();
+};
+
+start()
+    .catch(err => {
+        console.log(err);
+        process.exit(1);
+    })
+
+
+module.exports = start;
