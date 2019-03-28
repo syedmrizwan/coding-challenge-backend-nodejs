@@ -4,8 +4,7 @@
   "description": "Stolen Bike Cases",
   "main": "index.js",
   "scripts": {
-    "test": "lab -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,__core-js_shared__'",
-    "start": "nodemon server.js"
+    "test": "lab -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,__core-js_shared__'"
   },
   "keywords": [],
   "author": "Syed Rizwan",
@@ -28,5 +27,8 @@
     "sequelize": "^4.38.0",
     "sequelize-init": "0.0.3",
     "vision": "^5.3.3"
+  },
+  "engines": {
+    "node": "10.x"
   }
 }
