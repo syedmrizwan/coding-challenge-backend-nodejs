@@ -17,7 +17,7 @@ async function start() {
     });
 
     //initialize sequalize
-    await db.sequelize.sync();
+    //await db.sequelize.sync();
 
     //registers swagger plugins
     await server.register(require("./config/hapi-plugins"));
