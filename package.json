@@ -4,6 +4,7 @@
   "description": "Stolen Bike Cases",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "lab -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,__core-js_shared__'"
   },
   "keywords": [],
