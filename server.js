@@ -1,15 +1,11 @@
 'use strict';
 
 const Hapi = require('hapi');
-const Pack = require('./package');
-// const faker = require("faker");
-// const times = require("lodash.times");
-// const random = require("random");
-const db = require('./sequelize/models');
+
 
 async function start() {
     const server = await new Hapi.Server({
-        host: process.env.HOST || 'localhost',
+        host: '0.0.0.0',
         port: process.env.PORT || 8000,
         routes: {
             cors: true
