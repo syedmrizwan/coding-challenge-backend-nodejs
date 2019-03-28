@@ -28,11 +28,29 @@ Please stick to the Product Requirements. You should not implement authorisation
 - Tests (quality and coverage)
 - Typescript is a plus
 
-## Instructions
-- Fork this repo
-- The challenge is on!
-- Build a performant, clean and well-structured solution
-- Commit early and often. We want to be able to check your progress
-- Make your API public. Deploy it using the service of your choice (e.g. AWS, Heroku, Digital Ocean...)
-- Create a pull request
-- Please complete your working solution within 7 days of receiving this challenge, and be sure to notify us when it is ready for review.
+
+## Built With
+- Node
+- Hapi
+- Sequelize(Postgresql)
+- Lab and Chai for unit testing and coverage
+- Hosted with Heroku
+
+
+
+## Running the app
+1. In the root folder run `npm install`.
+2. Go to file `sequelize/config/config.json` and change db credentials.
+3. `cd sequelize` & run `sequelize db:migrate` this command will create your tables in the db.
+4. `cd` to root folder & run `npm start`.
+5. Navigate to `localhost:8000/documentation` (swaggerized ui will open).
+
+
+## Deployment
+Bike-Stolen-Case API deployed to Heroku: 
+https://stolen-bike-case.herokuapp.com/
+
+
+## Api Docs
+Api Docs for Bike-Stolen-Case App:
+https://stolen-bike-case.herokuapp.com/documentation
