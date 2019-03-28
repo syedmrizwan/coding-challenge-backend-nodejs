@@ -9,8 +9,8 @@ const db = require('./sequelize/models');
 
 async function start() {
     const server = await new Hapi.Server({
-        host: 'localhost',
-        port: 8000,
+        host: process.env.HOST || 'localhost',
+        port: process.env.PORT || 8000,
         routes: {
             cors: true
         }
