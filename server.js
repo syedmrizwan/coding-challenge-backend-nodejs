@@ -1,20 +1,16 @@
 'use strict';
 
 const Hapi = require('hapi');
+const server = new Hapi.Server({ port: process.env.PORT || 8000, routes: { cors: true } });
 
 async function start() {
-    const server = await new Hapi.Server({
-        host: '0.0.0.0',
-        port: process.env.PORT || 8000,
-        routes: { cors: true }
-    });
 
     //registers swagger plugins
     await server.register(require("./config/hapi-plugins"));
 
     //registers swagger plugins
     await server.register(require("./config/hapi-plugins"));
-    
+
     //Routes
     server.route((require('./routes/policeDepartment')));
     server.route((require('./routes/bike')));
@@ -30,4 +26,4 @@ start().catch(err => {
 })
 
 
-module.exports = start;
+module.exports = server;

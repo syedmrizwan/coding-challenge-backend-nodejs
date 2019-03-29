@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "lab -I 'Reflect,core,_babelPolyfill,regeneratorRuntime,__core-js_shared__,__core-js_shared__'"
+    "test": "lab -c -t 85 -v -l"
   },
   "keywords": [],
   "author": "Syed Rizwan",
@@ -15,7 +15,7 @@
     "chai": "^4.2.0",
     "code": "^5.2.4",
     "faker": "^4.1.0",
-    "hapi": "^17.5.3",
+    "hapi": "^17.8.5",
     "hapi-swagger": "^9.1.1",
     "inert": "^5.1.0",
     "lab": "^18.0.2",

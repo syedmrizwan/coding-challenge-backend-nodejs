@@ -7,7 +7,7 @@ const expect = require('chai').expect;
 const it = lab.it;
 const describe = lab.describe;
 const before = lab.beforeEach;
-const after = lab.afterEach;
+const after = lab.after;
 
 // get the server
 const server = require('../server');
@@ -20,34 +20,26 @@ describe('Routes /stolenBikes', () => {
         await db.PoliceOfficer.destroy({ where: {} });
         await db.PoliceDepartment.destroy({ where: {} });
     });
-    describe('GET /stolenBikes', () => {
-        it('return 200 HTTP status code', async () => {
-            const options = { method: 'GET', url: '/stolenBikes' };
-            const response = await server.inject(options);
-            expect(response).to.have.property('statusCode', 200);
-        });
-    });
-    describe('POST /stolenBikes', () => {
-        it('return 201 HTTP status code', async () => {
-            const options = { method: 'POST', url: '/stolenBikes', payload: { licenseNumber: 'IIA', ownerFullName: 'Syed Rizwan' } };
-            const response = await server.inject(options);
-            expect(response).to.have.property('statusCode', 201);
-        });
-    });
 
-    describe('POST /stolenBikes/{bikeId}', () => {
+    describe('GET /policeOfficers/{officerId}', () => {
         it('return 200 HTTP status code', async () => {
             let options = { method: 'POST', url: '/policeDepartments', payload: { name: 'NYPD' } };
             let response = await server.inject(options);
             let departmentId = response.result.dataValues.id;
             options = { method: 'POST', url: '/policeDepartments/' + departmentId + '/policeOfficers', payload: { name: 'John Officer' } };
-            await server.inject(options);
+            response = await server.inject(options);
+            let officerId = response.result.dataValues.id;
+
             options = { method: 'POST', url: '/stolenBikes', payload: { licenseNumber: 'IIA', ownerFullName: 'Syed Rizwan' } };
             response = await server.inject(options);
             let bikeId = response.result.dataValues.id;
-            options = { method: 'POST', url: '/stolenBikes/' + bikeId };
+            options = { method: 'GET', url: '/policeOfficers/' + officerId };
             response = await server.inject(options);
+
             expect(response).to.have.property('statusCode', 200);
+            expect(response.result.id).equal(officerId);
+            expect(response.result.stolenBikeIncidents.id).equal(bikeId);
         });
     });
+
 });

@@ -7,91 +7,64 @@ const expect = require('chai').expect;
 const it = lab.it;
 const describe = lab.describe;
 const before = lab.beforeEach;
+const after = lab.after;
+
 // get the server
-const start = require('../server');
+const server = require('../server');
 const db = require('../sequelize/models');
 
 describe('Routes /policeDepartments', () => {
-    let departmentId = 1;
-    db.PoliceDepartment.destroy({ where: {} }, () => {
-        before((done) => {
-            let options = {
-                method: 'POST',
-                url: '/policeDepartments',
-                payload: {
-                    name: 'NYPD'
-                }
-            };
-
-            start.server.inject(options, (response) => {
-                departmentId = response.result.id;
-                done();
-            });
+    before(() => { });
+    after(async () => {
+        await db.Bike.destroy({ where: {} });
+        await db.PoliceOfficer.destroy({ where: {} });
+        await db.PoliceDepartment.destroy({ where: {} });
+    });
+    describe('POST /policeDepartments', () => {
+        it('return 201 HTTP status code', async () => {
+            const options = { method: 'POST', url: '/policeDepartments', payload: { name: 'NYPD' } };
+            const response = await server.inject(options);
+            expect(response).to.have.property('statusCode', 201);
         });
     });
-
 
     describe('GET /policeDepartments/{departmentId}', () => {
-        it('return 404 HTTP status code', (done) => {
-            db.PoliceDepartment.destroy({ where: {} }, () => {
-                const options = {
-                    method: 'GET',
-                    url: '/policeDepartments/{departmentId}',
-                    params: departmentId
-                };
-                start.server.inject(options, (response) => {
-                    expect(response).to.have.property('statusCode', 404);
-                    done();
-                });
-            });
+        it('return 200 HTTP status code', async () => {
+            let options = { method: 'POST', url: '/policeDepartments', payload: { name: 'NYPD' } };
+            let response = await server.inject(options);
+            let departmentId = response.result.dataValues.id;
+
+            options = { method: 'GET', url: '/policeDepartments/' + departmentId };
+            response = await server.inject(options);
+            expect(response).to.have.property('statusCode', 200);
+            expect(response.result[0].dataValues.id).equal(departmentId);
         });
     });
 
-    describe('POST /policeDepartments', () => {
-        it('return 201 HTTP status code', (done) => {
-            db.PoliceDepartment.destroy({ where: {} }, () => {
-                const options = {
-                    method: 'POST',
-                    url: '/policeDepartments',
-                    payload: { name: 'NYPD' }
-                };
-                start.server.inject(options, (response) => {
-                    expect(response).to.have.property('statusCode', 201);
-                    done();
-                });
-            });
-        });
-    });
     describe('POST /policeDepartments/{departmentId}/policeOfficers', () => {
-        it('return 404 HTTP status code', (done) => {
-            db.PoliceDepartment.destroy({ where: {} }, () => {
-                const options = {
-                    method: 'POST',
-                    url: '/policeDepartments/{departmentId}/policeOfficers}',
-                    params: 123,
-                    payload: { name: 'John Police' }
-                };
-                start.server.inject(options, (response) => {
-                    expect(response).to.have.property('statusCode', 404);
-                    done();
-                });
-            });
+        it('return 201 HTTP status code', async () => {
+            let options = { method: 'POST', url: '/policeDepartments', payload: { name: 'NYPD' } };
+            let response = await server.inject(options);
+            let departmentId = response.result.dataValues.id;
+            options = { method: 'POST', url: '/policeDepartments/' + departmentId + '/policeOfficers', payload: { name: 'John Officer' } };
+            response = await server.inject(options);
+            expect(response).to.have.property('statusCode', 201);
         });
     });
 
     describe('GET /policeDepartments/{departmentId}/policeOfficers', () => {
-        it('return 404 HTTP status code', (done) => {
-            db.PoliceDepartment.destroy({ where: {} }, () => {
-                const options = {
-                    method: 'GET',
-                    url: '/policeDepartments/{departmentId}/policeOfficers',
-                    params: 123
-                };
-                start.server.inject(options, (response) => {
-                    expect(response).to.have.property('statusCode', 404);
-                    done();
-                });
-            });
+        it('return 200 HTTP status code', async () => {
+            let options = { method: 'POST', url: '/policeDepartments', payload: { name: 'NYPD' } };
+            let response = await server.inject(options);
+            let departmentId = response.result.dataValues.id;
+            options = { method: 'POST', url: '/policeDepartments/' + departmentId + '/policeOfficers', payload: { name: 'John Officer' } };
+            response = await server.inject(options);
+            let officerId = response.result.dataValues.id;
+
+            options = { method: 'GET', url: '/policeDepartments/' + departmentId + '/policeOfficers' };
+            response = await server.inject(options);
+            expect(response).to.have.property('statusCode', 200);
+            expect(response.result[0].dataValues.id).equal(officerId);
         });
     });
 });
