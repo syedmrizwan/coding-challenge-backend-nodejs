@@ -1,4 +1,4 @@
-# Stolen Bike Cases - Backend (Node.js)
+# stolen-bikes-backend
 
 ![JOIN Stolen Bike Cases](https://github.com/join-com/coding-challenge-backend-nodejs/raw/master/illustration.png)
 
